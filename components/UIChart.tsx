@@ -3,7 +3,6 @@ import {
   ChartOptions,
   createChart,
   DeepPartial,
-  IChartApi,
   SeriesOptionsCommon,
 } from "lightweight-charts";
 import React from "react";

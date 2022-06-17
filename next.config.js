@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const withPlugins = require("next-compose-plugins");
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -9,4 +11,9 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+const withTM = require("next-transpile-modules")([
+  "lightweight-charts",
+  "fancy-canvas",
+]);
+
+module.exports = withPlugins([withTM], nextConfig);

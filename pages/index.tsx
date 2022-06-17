@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { UIHeader } from "./components/UIHeader";
-import { UITop } from "./components/UITop";
+import { UIHeader } from "../components/UIHeader";
+import { UITop } from "../components/UITop";
 import dynamic from "next/dynamic";
-import { UIValues } from "./components/UIValues";
-import { Item, UIItems } from "./components/UIItems";
-import { UIFooter } from "./components/UIFooter";
+import { UIValues } from "../components/UIValues";
+import { Item, UIItems } from "../components/UIItems";
+import { UIFooter } from "../components/UIFooter";
 
 const items: Item[] = [
   {
@@ -37,7 +37,7 @@ const items: Item[] = [
   },
 ];
 
-const Chart = dynamic(() => import("./components/UIChart"), {
+const Chart = dynamic(() => import("../components/UIChart"), {
   loading: () => <p>Loading ...</p>,
   ssr: false,
 });

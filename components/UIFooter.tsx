@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import bottomPic from "../../public/bottom.png";
+import bottomPic from "../public/bottom.png";
 
 export const UIFooter = () => {
   return (

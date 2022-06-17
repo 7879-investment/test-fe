@@ -1,5 +1,5 @@
 import Image from "next/image";
-import topPic from "../../public/top.png";
+import topPic from "../public/top.png";
 
 export const UITop = () => {
   return (
