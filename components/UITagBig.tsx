@@ -1,3 +1,5 @@
+import { UIPrice } from "./UIPrice";
+
 export const UITagBig = (props: {
   label: string;
   value: number;
@@ -17,7 +19,7 @@ export const UITagBig = (props: {
         {props.label}
       </div>
       <div
-        className={`px-2 min-w-[240px] h-full flex items-center  justify-center ${
+        className={`px-2 min-w-[160px] h-full flex items-center  justify-center ${
           props.color === "saphire"
             ? "bg-saphire-9"
             : props.color === "gold"
@@ -25,7 +27,7 @@ export const UITagBig = (props: {
             : "bg-platinum-9"
         }`}
       >
-        {props.value}
+        <UIPrice price={props.value} />
       </div>
     </div>
   );

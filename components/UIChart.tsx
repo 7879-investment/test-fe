@@ -6,7 +6,10 @@ import {
   SeriesOptionsCommon,
 } from "lightweight-charts";
 import React from "react";
-import { chartData } from "./data";
+import { IPortfolio } from "./types";
+import { UIPrice } from "./UIPrice";
+import { RealtimeContext } from "./UIRealtimeContext";
+import { usePortfolio } from "./usePortfolio";
 
 const chartOptions: DeepPartial<ChartOptions> = {
   height: 400,
@@ -27,9 +30,11 @@ const chartOptions: DeepPartial<ChartOptions> = {
   grid: {
     horzLines: {
       color: "#eee",
+      visible: false,
     },
     vertLines: {
       color: "#ffffff",
+      visible: false,
     },
   },
   crosshair: {
@@ -46,8 +51,18 @@ const seriesOptions: DeepPartial<AreaStyleOptions & SeriesOptionsCommon> = {
   lineWidth: 2,
 };
 
-export const UIChart = () => {
+export const UIChart = (props: { portfolio: IPortfolio }) => {
   const chartRef = React.useRef<any>();
+
+  const chartData = React.useMemo(
+    () =>
+      props.portfolio.history.map((i) => ({
+        time: i.date,
+        value: i.totalValue.amount,
+      })),
+    [props.portfolio]
+  );
+
   React.useEffect(() => {
     const handleResize = () => {
       chart.applyOptions({ width: chartRef.current.clientWidth });
@@ -70,9 +85,24 @@ export const UIChart = () => {
 
       chart.remove();
     };
-  }, []);
+  }, [chartData]);
 
-  return <div ref={chartRef} />;
+  const portfolioData = usePortfolio(props.portfolio);
+
+  return (
+    <div className="bg-[#326985]">
+      <div className=" text-white px-12 py-12 flex justify-between border-b border-white flex-col sm:flex-row">
+        <span className="text-2xl">Your portfolio</span>
+        <div className="flex flex-col sm:items-end">
+          <span className="text-2xl">
+            £ {portfolioData.totalValue.toFixed(2)}
+          </span>
+          <span className="text-xs">£ {portfolioData.diff.toFixed(2)}</span>
+        </div>
+      </div>
+      <div ref={chartRef} />
+    </div>
+  );
 };
 
 export default UIChart;
