@@ -1,8 +1,6 @@
 import { applyPatch } from "fast-json-patch";
 import React from "react";
 import { IMetalSymbols, IRealtimePrice } from "./types";
-import { UIMemoWrapper } from "./UIMemoWrapper";
-import useSWR from "swr";
 
 export interface RealtimeProps {
   [IMetalSymbols.GOLD]: IRealtimePrice;
@@ -89,12 +87,6 @@ const findTimestampInPrices = (
   return new Date(`${symbolUpdate.Date} ${symbolUpdate.Time}`).getTime();
 };
 
-const streamQuery = `
-query {
-  streamUrl
-}
-`;
-
 export const RealtimeProvider = ({ children }: RealtimeProviderProps) => {
   // Need the ref for json patch
   const realtimeData = React.useRef<IXIgnitePrice[]>([]);
@@ -104,14 +96,14 @@ export const RealtimeProvider = ({ children }: RealtimeProviderProps) => {
   const [userData, setUserData] =
     React.useState<RealtimeProps>(initialContextState);
 
-  const streamUrl = useSWR(streamQuery);
-
   React.useEffect(() => {
     let eventSource: EventSource;
     const goLive = async () => {
-      const url = streamUrl.data.streamUrl;
+      //TODO: CHANGE THIS STREAM URL TO BE DYNAMIC
+      const streamUrl =
+        "https://globalmetals.stream.xignite.com/xGlobalMetals.json/GetRealTimeMetalQuotes?Symbols=XAUKG,XPTKG&Currency=GBP&_token=f1ecb2317e0dc80aab970590d680ede013129c570a7ede9e3dcdd2acaa4b3c0a2f3fbefc82905541069a22ba370bf0e8d87f455f&_token_userid=83918";
 
-      eventSource = new EventSource(url);
+      eventSource = new EventSource(streamUrl);
       eventSource.addEventListener("open", function () {
         // console.log('connected!')
       });
@@ -163,18 +155,18 @@ export const RealtimeProvider = ({ children }: RealtimeProviderProps) => {
         }
       });
     };
-    if (process.browser && streamUrl.data) {
+    if (process.browser) {
       goLive();
     }
     return () => {
       eventSource?.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [streamUrl]);
+  }, []);
 
   return (
     <RealtimeContext.Provider value={userData}>
-      <UIMemoWrapper>{children}</UIMemoWrapper>
+      {children}
     </RealtimeContext.Provider>
   );
 };
