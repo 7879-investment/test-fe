@@ -1,9 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Roobert TRIAL";
+  src: url("/fonts/RoobertTRIAL-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+/* @font-face {
+  font-family: 'Tobias TRIAL';
+  src: url('/fonts/TobiasTRIAL-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+} */
+
+@font-face {
+  font-family: "Roobert TRIAL";
+  src: url("/fonts/RoobertTRIAL-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-display: optional;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Roobert TRIAL", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  font-weight: 400;
+  font-style: normal;
 }
 
 a {
