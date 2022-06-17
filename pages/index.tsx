@@ -6,14 +6,40 @@ import dynamic from "next/dynamic";
 import { UIValues } from "../components/UIValues";
 import { UIItems } from "../components/UIItems";
 import { UIFooter } from "../components/UIFooter";
-import { portfolio } from "../components/data";
+import useSWR from "swr";
 
 const Chart = dynamic(() => import("../components/UIChart"), {
   loading: () => <p>Loading ...</p>,
   ssr: false,
 });
 
+const portfolioQuery = `{
+  portfolio {
+    id
+    currentBalance {
+      goldBalance
+      platinumBalance
+    }
+    history {
+      date
+      totalValue {
+        currency
+        amount
+      }
+    }
+    portfolioItems {
+      image
+      sku
+      name
+      purchasePrice
+      weight
+      metal
+    }
+  }
+}`;
+
 const Home: NextPage = () => {
+  const portfolioResult = useSWR(portfolioQuery);
   return (
     <div>
       <Head>
@@ -24,15 +50,17 @@ const Home: NextPage = () => {
 
       <UIHeader />
 
-      <main>
-        <UITop />
-        <Chart portfolio={portfolio} />
-        <div className="p-6">
-          <UIValues portfolio={portfolio} />
-        </div>
-        <UIItems items={portfolio.portfolioItems} />
-        <UIFooter />
-      </main>
+      {portfolioResult.data && (
+        <main>
+          <UITop />
+          <Chart portfolio={portfolioResult.data.portfolio} />
+          <div className="p-6">
+            <UIValues portfolio={portfolioResult.data.portfolio} />
+          </div>
+          <UIItems items={portfolioResult.data.portfolio.portfolioItems} />
+          <UIFooter />
+        </main>
+      )}
     </div>
   );
 };

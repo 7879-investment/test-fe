@@ -1,8 +1,8 @@
 import { applyPatch } from "fast-json-patch";
 import React from "react";
-import { latestPrice } from "./data";
 import { IMetalSymbols, IRealtimePrice } from "./types";
 import { UIMemoWrapper } from "./UIMemoWrapper";
+import useSWR from "swr";
 
 export interface RealtimeProps {
   [IMetalSymbols.GOLD]: IRealtimePrice;
@@ -18,14 +18,14 @@ interface RealtimeProviderProps {
 const initialContextState: RealtimeProps = {
   [IMetalSymbols.GOLD]: {
     diff: 0,
-    value: latestPrice.gold.amount,
+    value: 48.90807,
   },
   [IMetalSymbols.PLATINUM]: {
     diff: 0,
-    value: latestPrice.platinum.amount,
+    value: 25.31755,
   },
-  goldPrice: latestPrice.gold.amount,
-  platinumPrice: latestPrice.platinum.amount,
+  goldPrice: 48.90807,
+  platinumPrice: 25.31755,
 };
 
 enum XigniteMetalSymbols {
@@ -89,6 +89,12 @@ const findTimestampInPrices = (
   return new Date(`${symbolUpdate.Date} ${symbolUpdate.Time}`).getTime();
 };
 
+const streamQuery = `
+query {
+  streamUrl
+}
+`;
+
 export const RealtimeProvider = ({ children }: RealtimeProviderProps) => {
   // Need the ref for json patch
   const realtimeData = React.useRef<IXIgnitePrice[]>([]);
@@ -98,11 +104,12 @@ export const RealtimeProvider = ({ children }: RealtimeProviderProps) => {
   const [userData, setUserData] =
     React.useState<RealtimeProps>(initialContextState);
 
+  const streamUrl = useSWR(streamQuery);
+
   React.useEffect(() => {
     let eventSource: EventSource;
     const goLive = async () => {
-      const url =
-        "https://globalmetals.stream.xignite.com/xGlobalMetals.json/GetRealTimeMetalQuotes?Symbols=XAUKG,XPTKG&Currency=GBP&_token=825233bf4d5298b1e1e2adae21fc53ccc6d986c11f4ecf757a66b33b37dadd4eb8d7fe3e328efe2575bf3a3061508a870f3208db&_token_userid=83918";
+      const url = streamUrl.data.streamUrl;
 
       eventSource = new EventSource(url);
       eventSource.addEventListener("open", function () {
@@ -156,14 +163,14 @@ export const RealtimeProvider = ({ children }: RealtimeProviderProps) => {
         }
       });
     };
-    if (process.browser) {
+    if (process.browser && streamUrl.data) {
       goLive();
     }
     return () => {
       eventSource?.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [streamUrl]);
 
   return (
     <RealtimeContext.Provider value={userData}>
