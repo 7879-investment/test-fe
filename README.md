@@ -1,34 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 7879 Frontend Test
 
-## Getting Started
+Thanks for your interest in the front end role at 7879. 
+This task will be used as a test of your skills, but also should be fun to develop.
 
-First, run the development server:
+## Time Allowance
 
-```bash
-npm run dev
-# or
-yarn dev
+Please timebox 1-2 hours (or however much you are comfortable with) this is not intended to be completed as we will 
+pick-up with you and pair on extending where you have left off.
+
+
+## Repo Structure
+
+```
+.
+├── components
+├── pages
+├── public
+│     └── fonts
+├── styles
+├── types
+└── util
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+components: A place to put components
+pages: nextjs pages
+public: css/js to be served via next
+types: types for APIs which have been pre-built
+util: utilities which map datafeed data and api calls to a simple interface
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Goal
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The goal is to implement a user portfolio using a test API (which has been integrated in the utilities folder) already
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+We have provided a base nextjs project which should get you going - however if you wish to throw the whole thing away, then please do.
 
-## Learn More
+Your goal is to implement the following figma design in a simple app using simulated "real" data from an api not too disimilar to our own.
 
-To learn more about Next.js, take a look at the following resources:
+Figma File: https://www.figma.com/file/Fc4Jr53n7Iho4ZYie0VZcp/Frontend-Task?node-id=1%3A83
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Any questions please email ben@7879.co or ciprian@7879.co
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

@@ -12,7 +12,6 @@ const nextConfig = {
 };
 
 const withTM = require("next-transpile-modules")([
-  "lightweight-charts",
   "fancy-canvas",
 ]);
 
