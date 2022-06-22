@@ -1,18 +1,3 @@
-export enum IMetal {
-  Gold = "gold",
-  Platinum = "platinum",
-}
-
-export enum IMetalSymbols {
-  GOLD = "XAU",
-  PLATINUM = "XPT",
-}
-
-export interface IRealtimePrice {
-  value: number;
-  diff: number;
-}
-
 export interface IItem {
   image: string;
   sku: string;

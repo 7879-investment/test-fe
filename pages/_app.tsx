@@ -1,21 +1,16 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { RealtimeProvider } from "../components/UIRealtimeContext";
 import { SWRConfig } from "swr";
-import { request } from "graphql-request";
-
-const API_ENDPOINT = "https://morning-dusk-57594.herokuapp.com/";
+import { query } from "../util/api";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
       value={{
-        fetcher: (query: string) => request(API_ENDPOINT, query),
+        fetcher: query,
       }}
     >
-      <RealtimeProvider>
-        <Component {...pageProps} />
-      </RealtimeProvider>
+      <Component {...pageProps} />
     </SWRConfig>
   );
 }

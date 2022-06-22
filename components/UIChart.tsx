@@ -6,10 +6,8 @@ import {
   SeriesOptionsCommon,
 } from "lightweight-charts";
 import React from "react";
-import { IPortfolio } from "./types";
-import { UIPrice } from "./UIPrice";
-import { RealtimeContext } from "./UIRealtimeContext";
-import { usePortfolio } from "./usePortfolio";
+import { IPortfolio } from "../types/Portfolio";
+import { subscribeToUpdates } from "../util/datastream";
 
 const chartOptions: DeepPartial<ChartOptions> = {
   height: 400,
@@ -51,8 +49,35 @@ const seriesOptions: DeepPartial<AreaStyleOptions & SeriesOptionsCommon> = {
   lineWidth: 2,
 };
 
-export const UIChart = (props: { portfolio: IPortfolio }) => {
+export const UIChart = (props: {
+  portfolio: IPortfolio;
+  streamUrl: string;
+}) => {
   const chartRef = React.useRef<any>();
+  const [prices, setPrices] = React.useState({
+    XAU: {
+      value: 47.9744,
+      diff: -0.0022999999999981924,
+    },
+    XPT: {
+      value: 24.5031,
+      diff: -0.0030999999999998806,
+    },
+    goldPrice: 47.9744,
+    platinumPrice: 24.5031,
+  });
+
+  React.useEffect(() => {
+    subscribeToUpdates(
+      props.streamUrl,
+      (data) => {
+        setPrices(data);
+      },
+      (data) => {
+        setPrices(data);
+      }
+    );
+  }, [props.streamUrl]);
 
   const chartData = React.useMemo(
     () =>
@@ -87,17 +112,23 @@ export const UIChart = (props: { portfolio: IPortfolio }) => {
     };
   }, [chartData]);
 
-  const portfolioData = usePortfolio(props.portfolio);
-
   return (
     <div className="bg-[#326985]">
       <div className=" text-white px-12 py-12 flex justify-between border-b border-white flex-col sm:flex-row">
         <span className="text-2xl">Your portfolio</span>
         <div className="flex flex-col sm:items-end">
           <span className="text-2xl">
-            £ {portfolioData.totalValue.toFixed(2)}
+            £{" "}
+            {props.portfolio.currentBalance.goldBalance * prices.goldPrice +
+              props.portfolio.currentBalance.platinumBalance *
+                prices.platinumPrice}
           </span>
-          <span className="text-xs">£ {portfolioData.diff.toFixed(2)}</span>
+          <span className="text-xs">
+            £{" "}
+            {props.portfolio.currentBalance.goldBalance * prices.goldPrice +
+              props.portfolio.currentBalance.platinumBalance *
+                prices.platinumPrice}
+          </span>
         </div>
       </div>
       <div ref={chartRef} />
