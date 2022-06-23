@@ -2,6 +2,8 @@
 
 Thanks for your interest in the front end role at 7879.
 This task will be used as a test of your skills, but also should be fun to develop.
+We are using tailwindcss as a css styling utility library, but feel free to use whatever you are comfortable with.
+Feel free to add any other libraries you feel would make your life easier
 
 ## Time Allowance
 
