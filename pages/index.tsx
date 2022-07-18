@@ -47,6 +47,7 @@ const Home: NextPage = () => {
       <Head>
         <title>7879</title>
         <meta name="description" content="Test" />
+        <meta name="robots" content="noindex,nofollow" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
