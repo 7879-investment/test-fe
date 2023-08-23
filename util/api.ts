@@ -1,7 +1,7 @@
 /*
 
     Simple wrapper around API call to get data:
-    For documentation you can go to: https://www.graphqlbin.com/v2/new and enter endpoint address (https://morning-dusk-57594.herokuapp.com/)
+    For documentation you can go to: https://www.graphqlbin.com/v2/new and enter endpoint address (https://fe-test-server-7879-86f4b8c36d73.herokuapp.com/)
 
 
     intended use:
@@ -43,6 +43,6 @@
  */
 import { request, RequestDocument } from "graphql-request";
 
-const API_ENDPOINT = "https://morning-dusk-57594.herokuapp.com/";
+const API_ENDPOINT = "https://fe-test-server-7879-86f4b8c36d73.herokuapp.com/";
 
 export const query = (query: RequestDocument) => request(API_ENDPOINT, query);
